@@ -1,0 +1,24 @@
+name: Random Reviewer Assignment
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  assign-reviewer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Choose random reviewer
+        id: choose-reviewer
+        run: echo "REVIEWER=$(shuf -n1 -e @YuChunTsao @robot @cat)" >> $GITHUB_ENV
+
+      - name: Assign reviewer
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.pulls.requestReviewers({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              reviewers: [process.env.REVIEWER]
+          })
