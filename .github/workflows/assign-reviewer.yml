@@ -4,13 +4,15 @@ on:
   pull_request:
     types: [opened]
 
+  workflow_dispatch:
+
 jobs:
   assign-reviewer:
     runs-on: ubuntu-latest
     steps:
       - name: Choose random reviewer
         id: choose-reviewer
-        run: echo "REVIEWER=$(shuf -n1 -e YuChunTsao robot cat)" >> $GITHUB_ENV
+        run: echo "REVIEWER=$(shuf -n1 -e YuChunTsao YuChunTsao YuChunTsao)" >> $GITHUB_ENV
 
       - name: Assign reviewer
         uses: actions/github-script@v6
